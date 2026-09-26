@@ -1,0 +1,29 @@
+# Local/runtime artifacts
+output/
+research/
+findings.md
+progress.md
+task_plan.md
+.workbuddy/
+.dsh-repair/
+.dsh-research/
+
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Editor and OS noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Generated office/archive deliverables
+*.docx
+*.zip
+
+# Legacy Ceyuan 2 artwork retained locally but not published with Ceyuan 3
+/assets/ceyuan2-*

@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Ceyuan3 project state 1.0",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project_id",
+    "revision",
+    "facts",
+    "assumptions",
+    "modules",
+    "artifacts",
+    "history"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "facts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "value",
+          "source",
+          "updated_at"
+        ],
+        "properties": {
+          "value": {},
+          "source": {
+            "type": "string",
+            "minLength": 1
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "assumptions": {
+      "type": "array"
+    },
+    "modules": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "status",
+          "depends_on_facts",
+          "depends_on_modules",
+          "artifact_ids"
+        ],
+        "properties": {
+          "status": {
+            "enum": [
+              "ready",
+              "partial",
+              "blocked",
+              "stale",
+              "failed"
+            ]
+          },
+          "depends_on_facts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "depends_on_modules": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "artifact_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "path",
+          "status"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "ready",
+              "partial",
+              "blocked",
+              "stale",
+              "failed"
+            ]
+          },
+          "verification": {
+            "type": "object",
+            "required": [
+              "sha256",
+              "input_revision",
+              "inputs_sha256",
+              "requirements_sha256",
+              "reviewer",
+              "method",
+              "at",
+              "result"
+            ],
+            "properties": {
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "inputs_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "requirements_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "input_revision": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "reviewer": {
+                "type": "string",
+                "minLength": 1
+              },
+              "method": {
+                "type": "string",
+                "minLength": 1
+              },
+              "at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "result": {
+                "enum": [
+                  "pass",
+                  "fail",
+                  "unknown"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "history": {
+      "type": "array"
+    },
+    "input_revision": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Input version; legacy files fall back to revision. Review-only writes do not increment this value."
+    }
+  }
+}
